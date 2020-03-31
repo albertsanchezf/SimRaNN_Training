@@ -58,11 +58,11 @@ public class Classifier {
         int numLinesToSkip = 0;
         char delimiter = ',';
 
-        String datasetPath = "/Users/AlbertSanchez/Desktop/TFM (noDropBox)/Dataset/DS/dataset.csv"; //All
-        String modelConfigPath = "/Users/AlbertSanchez/Dropbox/TFM/OptimizationNetworks/DS/0/modelConfig.json"; //All
+        String datasetPath = "/Users/AlbertSanchez/Desktop/TFM (noDropBox)/Dataset/binaryDS/dataset.csv"; //All
+        String modelConfigPath = "/Users/AlbertSanchez/Dropbox/TFM/OptimizationNetworks/binaryDS/0/modelConfig.json"; //All
         String saveFilename = "resources/trainedNN/DSNet.zip";
-        int numClasses = 9;  //9 classes (types of incidents). Classes have integer values 0 to 8
-        int batchSize = 512; //SimRa dataset: 2478 (iOS: 611 | android: 1867) | Without incidents 1,4,5,8: 1716 | UserTAG (Types158: 3200 | Types1458: 2925)
+        int numClasses = 2;  //2 classes (types of incidents). 0 - No incident | 1 - Incident
+        int batchSize = 512; //SimRa dataset: 3896
 
         RecordReader recordReader = new CSVRecordReader(numLinesToSkip,delimiter);
         recordReader.initialize(new FileSplit(new File(datasetPath)));
@@ -127,7 +127,7 @@ public class Classifier {
         model.init();
         model.setListeners(new ScoreIterationListener(100));
 
-        for(int i=0; i<1; i++) {
+        for(int i=0; i<2000; i++) {
             model.fit(trainingData);
         }
 
