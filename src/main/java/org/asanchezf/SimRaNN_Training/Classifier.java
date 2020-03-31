@@ -58,11 +58,12 @@ public class Classifier {
         int numLinesToSkip = 0;
         char delimiter = ',';
 
-        String datasetPath = "/Users/AlbertSanchez/Desktop/TFM (noDropBox)/Dataset/binaryDS/dataset.csv"; //All
-        String modelConfigPath = "/Users/AlbertSanchez/Dropbox/TFM/OptimizationNetworks/binaryDS/0/modelConfig.json"; //All
+        int type = 8; //Class we are evaluating (from 1 - 8)
+        String datasetPath = "/Users/AlbertSanchez/Desktop/TFM (noDropBox)/Dataset/ternaryDS/" + type + "/dataset.csv";
+        String modelConfigPath = "/Users/AlbertSanchez/Dropbox/TFM/OptimizationNetworks/ternaryDS/" + type + "/modelConfig.json"; //Android
         String saveFilename = "resources/trainedNN/DSNet.zip";
-        int numClasses = 2;  //2 classes (types of incidents). 0 - No incident | 1 - Incident
-        int batchSize = 512; //SimRa dataset: 3896
+        int numClasses = 3; //3 classes (types of incidents). Classes have integer values 0 (No Incident), 1 (Incident) and 2 (Incident Type N).
+        int batchSize = 512; //SimRa dataset (Type-Size): 1-3493 | 2-3732 | 3-3656 | 4-3683 | 5-3850 | 6-3864 | 7-3362 | 8-3580
 
         RecordReader recordReader = new CSVRecordReader(numLinesToSkip,delimiter);
         recordReader.initialize(new FileSplit(new File(datasetPath)));
