@@ -62,6 +62,8 @@ public class Classifier {
         String datasetPath = "/Users/AlbertSanchez/Desktop/TFM (noDropBox)/Dataset/ternaryDS/" + type + "/dataset.csv";
         String modelConfigPath = "/Users/AlbertSanchez/Dropbox/TFM/OptimizationNetworks/ternaryDS/" + type + "/modelConfig.json"; //Android
         String saveFilename = "resources/trainedNN/DSNet.zip";
+        int nEpochs = 5000;
+        double trainPercentage = 0.7;
         int numClasses = 3; //3 classes (types of incidents). Classes have integer values 0 (No Incident), 1 (Incident) and 2 (Incident Type N).
         int batchSize = 512; //SimRa dataset (Type-Size): 1-3493 | 2-3732 | 3-3656 | 4-3683 | 5-3850 | 6-3864 | 7-3362 | 8-3580
 
@@ -108,7 +110,7 @@ public class Classifier {
         DataSetIterator iterator = new RecordReaderDataSetIterator(transformProcessRecordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
         allData.shuffle();
-        SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(0.7);  //Use 70% of data for training
+        SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(trainPercentage);  //Use 70% of data for training
 
         DataSet trainingData = testAndTrain.getTrain();
         DataSet testData = testAndTrain.getTest();
@@ -128,7 +130,7 @@ public class Classifier {
         model.init();
         model.setListeners(new ScoreIterationListener(100));
 
-        for(int i=0; i<2000; i++) {
+        for(int i=0; i<nEpochs; i++) {
             model.fit(trainingData);
         }
 
