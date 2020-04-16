@@ -61,6 +61,8 @@ public class Classifier {
         String datasetPath = "/Users/AlbertSanchez/Desktop/TFM (noDropBox)/Dataset/binaryDS/dataset.csv"; //All
         String modelConfigPath = "/Users/AlbertSanchez/Dropbox/TFM/OptimizationNetworks/binaryDS/0/modelConfig.json"; //All
         String saveFilename = "resources/trainedNN/DSNet.zip";
+        int nEpochs = 5000;
+        double trainPercentage = 0.7;
         int numClasses = 2;  //2 classes (types of incidents). 0 - No incident | 1 - Incident
         int batchSize = 512; //SimRa dataset: 3896
 
@@ -107,7 +109,7 @@ public class Classifier {
         DataSetIterator iterator = new RecordReaderDataSetIterator(transformProcessRecordReader,batchSize,labelIndex,numClasses);
         DataSet allData = iterator.next();
         allData.shuffle();
-        SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(0.7);  //Use 70% of data for training
+        SplitTestAndTrain testAndTrain = allData.splitTestAndTrain(trainPercentage);  //Use 70% of data for training
 
         DataSet trainingData = testAndTrain.getTrain();
         DataSet testData = testAndTrain.getTest();
@@ -127,7 +129,7 @@ public class Classifier {
         model.init();
         model.setListeners(new ScoreIterationListener(100));
 
-        for(int i=0; i<2000; i++) {
+        for(int i=0; i<nEpochs; i++) {
             model.fit(trainingData);
         }
 
